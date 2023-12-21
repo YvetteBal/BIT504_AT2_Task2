@@ -1,7 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 
 public class GameMain extends JPanel implements MouseListener{
 	//Constants for game 
@@ -38,11 +39,9 @@ public class GameMain extends JPanel implements MouseListener{
 	
 
 	/** Constructor to setup the UI and game components on the panel */
-	public GameMain() {   
+	public GameMain(){   
 		
-		// TODO: This JPanel fires a MouseEvent on MouseClicked so add required event listener to 'this'.          
-	    
-	    
+		// TODO: This JPanel fires a MouseEvent on MouseClicked so add required event listener to 'this'. -DONE         
 		// Setup the status bar (JLabel) to display status message       
 		statusBar = new JLabel("         ");       
 		statusBar.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));       
@@ -55,14 +54,19 @@ public class GameMain extends JPanel implements MouseListener{
 		add(statusBar, BorderLayout.SOUTH);
 		// account for statusBar height in overall height
 		setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT + 30));
+	
 		
+		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name - DONE
 		
-		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name
+		board = new Board();
 
 		
-		//TODO: call the method to initialise the game board
-
-	}
+		//TODO: call the method to initialize the game board - DONE
+		initGame ();
+		
+		addMouseListener (this);
+	    }
+	
 	
 	public static void main(String[] args) {
 		    // Run GUI code in Event Dispatch thread for thread safety.
@@ -86,7 +90,7 @@ public class GameMain extends JPanel implements MouseListener{
 	}
 	/** Custom painting codes on this JPanel */
 	public void paintComponent(Graphics g) {
-		//fill background and set colour to white
+		//fill background and set color to white
 		super.paintComponent(g);
 		setBackground(Color.WHITE);
 		//ask the game board to paint itself
