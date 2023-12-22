@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
@@ -98,7 +97,7 @@ public class GameMain extends JPanel implements MouseListener{
 		board.paint(g);
 		
 		//set status bar message
-		if (z == GameState.Playing) {          
+		if (currentState == GameState.Playing) {          
 			statusBar.setForeground(Color.BLACK);          
 			if (currentPlayer == Player.Cross) {   
 				statusBar.setText("X's Turn");
@@ -109,13 +108,13 @@ public class GameMain extends JPanel implements MouseListener{
 				//TODO: use the status bar to display the message "O"'s Turn - done
 	
 			}       
-			} else if (z == GameState.Draw) {          
+			} else if (currentState == GameState.Draw) {          
 				statusBar.setForeground(Color.RED);          
 				statusBar.setText("It's a Draw! Click to play again.");       
-			} else if (z == GameState.Cross_won) {          
+			} else if (currentState == GameState.Cross_won) {          
 				statusBar.setForeground(Color.RED);          
 				statusBar.setText("'X' Won! Click to play again.");       
-			} else if (z == GameState.Nought_won) {          
+			} else if (currentState == GameState.Nought_won) {          
 				statusBar.setForeground(Color.RED);          
 				statusBar.setText("'O' Won! Click to play again.");       
 			}
@@ -130,7 +129,7 @@ public class GameMain extends JPanel implements MouseListener{
 					board.cells[row][col].content = Player.Empty;           
 				}
 			}
-			 z = GameState.Playing;
+			currentState = GameState.Playing;
 			 currentPlayer = Player.Cross;
 		}
 		
@@ -154,10 +153,10 @@ public class GameMain extends JPanel implements MouseListener{
 				if (board.isDraw ()) {
 					currentState = GameState.Draw;
 				}
-					
+		}
 				// TODO: set the currentstate to the draw gamestate - done
 
-			}
+			
 			//otherwise no change to current state of playing
 		
 
@@ -166,14 +165,15 @@ public class GameMain extends JPanel implements MouseListener{
 		/** Event handler for the mouse click on the JPanel. If selected cell is valid and Empty then current player is added to cell content.
 		 *  UpdateGame is called which will call the methods to check for winner or Draw. if none then GameState remains playing.
 		 *  If win or Draw then call is made to method that resets the game board.  Finally a call is made to refresh the canvas so that new symbol appears*/
-	
+	   @Override
+	   public void mouseClicked(MouseEvent event) {
 	    // get the coordinates of where the click event happened            
-		int mouseX = e.getX();             
-		int mouseY = e.getY();             
+		int mouseX = event.getX();             
+		int mouseY = event.getY();             
 		// Get the row and column clicked             
 		int rowSelected = mouseY / CELL_SIZE;             
 		int colSelected = mouseX / CELL_SIZE;               			
-		if (z == GameState.Playing) {                
+		if (currentState == GameState.Playing) {                
 			if (rowSelected >= 0 && rowSelected < ROWS && colSelected >= 0 && colSelected < COLS && board.cells[rowSelected][colSelected].content == Player.Empty) {
 				// move  
 				board.cells[rowSelected][colSelected].content = currentPlayer; 
@@ -186,36 +186,43 @@ public class GameMain extends JPanel implements MouseListener{
 				else {
 					currentPlayer = Player.Cross;
 				}
+				repaint(); //redraw graphics on UI
 			}             
 		} else {        
 			// game over and restart              
-			initGame();            
+			initGame(); 
+			//redraw graphics on the UI
+			repaint ();
 		}   
 		
-		//TODO: redraw the graphics on the UI          
-           
-	}
+		}
+		//TODO: redraw the graphics on the UI  - done        
+		
+	
+
 		
 	
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent event) {
 		//  Auto-generated, event not used
 		
 	}
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent event) {
 		//  Auto-generated, event not used
 		
 	}
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent event) {
 		// Auto-generated,event not used
 		
 	}
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(MouseEvent event) {
 		// Auto-generated, event not used
 		
 	}
 
 }
+
+
