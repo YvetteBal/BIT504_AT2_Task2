@@ -149,8 +149,7 @@ public class GameMain extends JPanel implements MouseListener{
 		        	 currentState = GameState.Nought_won;
 		         }
 				// TODO: check which player has won and update the currentstate to the appropriate gamestate for the winner - done	
-			} else 
-				if (board.isDraw ()) {
+			} else if (board.isDraw ()) {
 					currentState = GameState.Draw;
 				}
 		}
